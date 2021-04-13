@@ -16,6 +16,7 @@ class SignupActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup)
         binding.LoginButton.setOnClickListener{
+
             username=binding.editTextTextPersonName2.toString().trim()
             email=binding.editTextTextPersonName2.toString().trim()
             password=binding.editTextTextPassword.toString().trim()
