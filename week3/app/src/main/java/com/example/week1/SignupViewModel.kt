@@ -10,6 +10,7 @@ class SignupViewModel(username: String, email: String,password: String) : ViewMo
     }
 
     fun setAccountUserName(username: String){
+
         account.value?.username = username
         account.postValue(account.value)
     }

@@ -9,5 +9,6 @@ class SignupViewModelFactory(val username: String, val email: String, val passwo
             return SignupViewModel(username, email, password) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
+
     }
 }
