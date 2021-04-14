@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 
 class SignupActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignupBinding
@@ -53,11 +54,11 @@ class SignupActivity : AppCompatActivity() {
 
         }
         binding.account = viewModel.account.value
-        viewModel.account.observe(this, observe{it:Account!
-            binding.editTextTextPersonName.text = it.username
-            binding.editTextTextPersonName2.text = it.email
-            binding.editTextTextPassword.text = it.password
-        })
+        viewModel.account.observe(this, Observer {
+            binding.editTextTextPersonName.setText(it.username)
+            binding.editTextTextPersonName2.setText(it.email)
+            binding.editTextTextPassword.setText(it.password)
+        }  )
         binding.tvLogin.setOnClickListener{
             val intent = Intent(this@SignupActivity, SigninActivity::class.java)
             startActivity(intent)

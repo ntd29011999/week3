@@ -66,7 +66,7 @@
             android:paddingLeft="10dp"
             android:selectAllOnFocus="false"
             android:singleLine="true"
-            android:text="Arlene Mccoy"
+            android:text="@{account.username}"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView2" />
@@ -93,7 +93,7 @@
             android:inputType="textPersonName"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text="Preelookstudio@gmail.com"
+            android:text="@{account.email}"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView3" />
@@ -120,7 +120,7 @@
             android:inputType="textPassword"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text="123456"
+            android:text="@{account.password}"
             android:textSize="25sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView4" />
