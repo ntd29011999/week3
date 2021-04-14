@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="account"
+            type="com.example.week1.Account" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
