@@ -22,7 +22,7 @@ class SignupActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this,R.layout.activity_signup)
         viewModelFactory = SignupViewModelFactory("bay","bay@gmail.com","123")
-        viewModel= ViewModelProvider(this).get(SignupViewModel::class.java)
+        viewModel= ViewModelProvider(this,viewModelFactory).get(SignupViewModel::class.java)
         binding.apply {
 
             editTextTextPersonName.setOnClickListener {

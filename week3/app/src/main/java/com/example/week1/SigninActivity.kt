@@ -15,7 +15,12 @@ class SigninActivity : AppCompatActivity() {
         var btnLogin = findViewById<Button>(R.id.LoginButton)
         val et_email_login = findViewById<EditText>(R.id.editTextTextPersonName2);
         val et_pass_login = findViewById<EditText>(R.id.editTextTextPassword);
+        val tvSignup =findViewById<TextView>(R.id.tvSignUp)
 
+        tvSignup.setOnClickListener {
+            val intent = Intent(this@SigninActivity, SignupActivity::class.java)
+            startActivity(intent)
+        }
         btnLogin.setOnClickListener {
             if (et_email_login.text.toString() == "ronaldo@gmail.com" && et_pass_login.text.toString() == "123456") {
                 val intent = Intent(this@SigninActivity, ProfileActivity::class.java)
