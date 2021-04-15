@@ -20,38 +20,37 @@ class SignupActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this,R.layout.activity_signup)
         viewModelFactory = SignupViewModelFactory("bay","bay@gmail.com","123")
         viewModel= ViewModelProvider(this,viewModelFactory).get(SignupViewModel::class.java)
-        binding.apply {
+//        binding.apply {
+//
+//            editTextTextPersonName.setOnClickListener {
+//                val username = editTextTextPersonName.text.toString().trim()
+//                viewModel.setAccount(username)
+//            }
+//            editTextEmail.setOnClickListener {
+//                val email = editTextEmail.text.toString().trim()
+//                viewModel.setAccount(email)
+//            }
+//
+//            editTextTextPassword.setOnClickListener {
+//                val password = editTextTextPassword.text.toString().trim()
+//                viewModel.setAccount(password)
+//
+//            }
+//        }
 
-            editTextTextPersonName.setOnClickListener {
-                val username = editTextTextPersonName.text.toString().trim()
-                viewModel.setAccountUserName(username)
-            }
-            editTextEmail.setOnClickListener {
-                val email = editTextEmail.text.toString().trim()
-                viewModel.setAccountUserName(email)
-            }
-
-            editTextTextPassword.setOnClickListener {
-                val password = editTextTextPassword.text.toString().trim()
-                viewModel.setAccountUserName(password)
-
-            }
-        }
-        binding.account = viewModel.account.value
-        viewModel.account.observe(this, Observer {
-            binding.editTextTextPersonName.setText(it.username)
-            binding.editTextEmail.setText(it.email)
-            binding.editTextTextPassword.setText(it.password)
-        }  )
         binding.LoginButton.setOnClickListener{
             if (binding.account?.username?.isEmpty() == true) {
                 binding.editTextEmail.error = "Please enter the email"
             } else if (binding.account?.password?.isEmpty() == true) {
                 binding.editTextTextPassword.error = "Please enter the password"
             } else {
-
+                val username = binding.editTextTextPersonName.text.toString().trim()
+                val email = binding.editTextEmail.text.toString().trim()
+                val password = binding.editTextTextPassword.text.toString().trim()
+                viewModel.setAccount(username,email,password)
                 val intent = Intent(this@SignupActivity, SigninActivity::class.java)
                 val bundle = Bundle()
+                bundle.putString("username", binding.account?.username)
                 bundle.putString("email", binding.account?.email)
                 bundle.putString("password", binding.account?.password)
                 intent.putExtras(bundle)
@@ -60,6 +59,12 @@ class SignupActivity : AppCompatActivity() {
             }
 
         }
+        binding.account = viewModel.account.value
+        viewModel.account.observe(this, Observer {
+            binding.editTextTextPersonName.setText(it.username)
+            binding.editTextEmail.setText(it.email)
+            binding.editTextTextPassword.setText(it.password)
+        }  )
     }
 
 

@@ -20,6 +20,8 @@ class SigninActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this,R.layout.activity_login)
+        viewModelFactory = SigninViewModelFactory("defaultname","defaultemail","defaultpassword")
+        viewModel = ViewModelProvider(this,viewModelFactory).get(SigninViewModel::class.java)
         val bundle = intent.extras
         var username: String =""
         var password: String =""
@@ -27,13 +29,7 @@ class SigninActivity : AppCompatActivity() {
             username = bundle.getString("email").toString().trim()
             password = bundle.getString("password").toString().trim()
         }
-        viewModelFactory = SigninViewModelFactory("defaultname","defaultemail","defaultpassword")
-        viewModel = ViewModelProvider(this,viewModelFactory).get(SigninViewModel::class.java)
-        binding.account = viewModel.account.value
-        viewModel.account.observe(this, androidx.lifecycle.Observer {
-            binding.editTextEmail.setText(it.email)
-            binding.editTextTextPassword.setText(it.password)
-        })
+
         binding.textviewSU.setOnClickListener {
             val intent = Intent(this@SigninActivity, SignupActivity::class.java)
             startActivity(intent)
