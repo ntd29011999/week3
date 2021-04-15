@@ -7,36 +7,59 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
+import com.example.week1.databinding.ActivityLoginBinding
+import com.example.week1.databinding.ActivitySignupBinding
+import java.util.*
 
 class SigninActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityLoginBinding
+    private lateinit var viewModel: SigninViewModel
+    private lateinit var viewModelFactory: SigninViewModelFactory
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
-        var btnLogin = findViewById<Button>(R.id.LoginButton)
-        val et_email_login = findViewById<EditText>(R.id.editTextTextPersonName2);
-        val et_pass_login = findViewById<EditText>(R.id.editTextTextPassword);
-        val tvSignup =findViewById<TextView>(R.id.tvSignUp)
-
-        tvSignup.setOnClickListener {
+        binding = DataBindingUtil.setContentView(this,R.layout.activity_login)
+        val bundle = intent.extras
+        var username: String =""
+        var password: String =""
+        bundle?.let{
+            username = bundle.getString("email").toString().trim()
+            password = bundle.getString("password").toString().trim()
+        }
+        viewModelFactory = SigninViewModelFactory("defaultname","defaultemail","defaultpassword")
+        viewModel = ViewModelProvider(this,viewModelFactory).get(SigninViewModel::class.java)
+        binding.account = viewModel.account.value
+        viewModel.account.observe(this, androidx.lifecycle.Observer {
+            binding.editTextEmail.setText(it.email)
+            binding.editTextTextPassword.setText(it.password)
+        })
+        binding.textviewSU.setOnClickListener {
             val intent = Intent(this@SigninActivity, SignupActivity::class.java)
             startActivity(intent)
         }
-        btnLogin.setOnClickListener {
-            if (et_email_login.text.toString() == "ronaldo@gmail.com" && et_pass_login.text.toString() == "123456") {
-                val intent = Intent(this@SigninActivity, ProfileActivity::class.java)
-                startActivity(intent)
-            } else {
-                val inflater = layoutInflater
-                val dLayout = inflater.inflate(R.layout.invalid_account_dialog, null)
-                val loginDialog = AlertDialog.Builder(this)
-                with(loginDialog) {
-                    setTitle("")
-                    setPositiveButton("OK") { _, _ -> }
-                    setView(dLayout)
-                    show()
-                }
 
+
+        binding.LoginButton.setOnClickListener {
+                var email = binding.editTextEmail.text.toString().trim()
+                var password = binding.editTextTextPassword.text.toString().trim()
+                if (email.equals(username) && password.equals(password)) {
+                    val intent = Intent(this@SigninActivity, ProfileActivity::class.java)
+                    startActivity(intent)
+                } else {
+                    val inflater = layoutInflater
+                    val dLayout = inflater.inflate(R.layout.invalid_account_dialog, null)
+                    val loginDialog = AlertDialog.Builder(this@SigninActivity)
+                    with(loginDialog) {
+                        setTitle("")
+                        setPositiveButton("OK") { _, _ -> }
+                        setView(dLayout)
+                        show()
+                    }
+
+                }
             }
-        }
+
+
     }
 }

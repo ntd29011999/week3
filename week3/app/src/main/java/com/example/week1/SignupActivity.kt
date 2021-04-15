@@ -15,9 +15,6 @@ class SignupActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignupBinding
     private lateinit var viewModel: SignupViewModel
     private lateinit var viewModelFactory: SignupViewModelFactory
-    lateinit var email: String
-    lateinit var password: String
-    lateinit var username: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this,R.layout.activity_signup)
@@ -26,12 +23,11 @@ class SignupActivity : AppCompatActivity() {
         binding.apply {
 
             editTextTextPersonName.setOnClickListener {
-
                 val username = editTextTextPersonName.text.toString().trim()
                 viewModel.setAccountUserName(username)
             }
-            editTextTextPersonName2.setOnClickListener {
-                val email = editTextTextPersonName2.text.toString().trim()
+            editTextEmail.setOnClickListener {
+                val email = editTextEmail.text.toString().trim()
                 viewModel.setAccountUserName(email)
             }
 
@@ -41,27 +37,28 @@ class SignupActivity : AppCompatActivity() {
 
             }
         }
-            binding.LoginButton.setOnClickListener {
-            if (email.isEmpty()) {
-                binding.editTextTextPersonName2.error = "Please enter the email"
-            } else if (password.isEmpty()) {
-                binding.editTextTextPassword.error = "Please enter the password"
-            } else {
-
-                Toast.makeText(this, "Login complete", Toast.LENGTH_LONG).show()
-
-            }
-
-        }
         binding.account = viewModel.account.value
         viewModel.account.observe(this, Observer {
             binding.editTextTextPersonName.setText(it.username)
-            binding.editTextTextPersonName2.setText(it.email)
+            binding.editTextEmail.setText(it.email)
             binding.editTextTextPassword.setText(it.password)
         }  )
-        binding.tvLogin.setOnClickListener{
-            val intent = Intent(this@SignupActivity, SigninActivity::class.java)
-            startActivity(intent)
+        binding.LoginButton.setOnClickListener{
+            if (binding.account?.username?.isEmpty() == true) {
+                binding.editTextEmail.error = "Please enter the email"
+            } else if (binding.account?.password?.isEmpty() == true) {
+                binding.editTextTextPassword.error = "Please enter the password"
+            } else {
+
+                val intent = Intent(this@SignupActivity, SigninActivity::class.java)
+                val bundle = Bundle()
+                bundle.putString("email", binding.account?.email)
+                bundle.putString("password", binding.account?.password)
+                intent.putExtras(bundle)
+                startActivity(intent)
+
+            }
+
         }
     }
 
